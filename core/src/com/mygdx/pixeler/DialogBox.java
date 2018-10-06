@@ -36,6 +36,7 @@ public class DialogBox extends ApplicationAdapter {
     static Texture setSizeBar = new Texture("setsizebar.png");
     static Texture sizeBarNub = new Texture("sizebarnub.png");
     static Texture invalidSize = new Texture("invalidsize.png");
+    static Texture gearIcon = new Texture("gearicon.png");
 
     //Variables
     static Float dialogX = Gdx.graphics.getWidth() / 2f;
@@ -60,6 +61,9 @@ public class DialogBox extends ApplicationAdapter {
 
     //Grid size stuff
     static int maxSize = 20;
+    static int maxColour = 11;
+    static int maxSelect = 0;
+    static int selection = 0;
     static int canvasSize = 16;
     static int sizeBarWidth = Math.round(MainMenu.scrollWidth/2.5f);
     static Float nubSize = sizeBarWidth * 0.09f;
@@ -70,7 +74,7 @@ public class DialogBox extends ApplicationAdapter {
     static boolean spriteListInit = false;
     static String[] spriteList = new String[maxSize+1];
 
-    //Draw dialog: 0 - nothing, 1 - confirm, 2 - deny | type: 0 - confirmation, 1 - message, 2 - resolution
+    //Draw dialog: 0 - nothing, 1 - confirm, 2 - deny | type: 0 - confirmation, 1 - message, 2 - resolution, 3 - screen colour
     public static void ConfirmDialog(String message, int type) {
 
         //Set the size previews
@@ -102,6 +106,12 @@ public class DialogBox extends ApplicationAdapter {
         //Show the dialog
         dialogShown = true;
         dialogType = type;
+
+        //set the max sizes
+        if (dialogType == 2)
+            maxSelect = maxSize;
+        else if (dialogType == 3)
+            maxSelect = maxColour;
 
         //Set dialog fade in/out
         //Dialog showing
@@ -145,7 +155,7 @@ public class DialogBox extends ApplicationAdapter {
 
         //Draw box and shadow
         DrawSprite.Draw(dialogBox, dialogX + dialogWidth / 30, dialogY - dialogWidth / 30, dialogWidth, dialogHeight, 1f, (0.1f)*dialogAlpha, Color.BLACK, true);
-        DrawSprite.Draw(dialogBox2, dialogX, dialogY, dialogWidth, dialogHeight, 1f, dialogAlpha, MainController.mainColour, true);
+        DrawSprite.Draw(dialogBox2, dialogX, dialogY, dialogWidth, dialogHeight, 1f, dialogAlpha, MainController.mainColourList[MainController.mainColour], true);
         DrawSprite.Draw(dialogBox, dialogX, dialogY, dialogWidth, dialogHeight, 1f, dialogAlpha, Color.TEAL, true);
 
         //Draw overwrite box if necessary, lift text up
@@ -163,7 +173,7 @@ public class DialogBox extends ApplicationAdapter {
             //New sprite
             SpriteDrawer.Draw(CanvasDrawer.canvasSprite, spriteSize, dialogRight + spriteSize*0.249f, dialogY + spriteSize*0.175f, Color.TEAL, dialogAlpha);
         }
-        else if (dialogType == 2) {
+        else if (dialogType == 2 || dialogType == 3) {
             //Draw text
             batch.begin();
             font.setColor(0,0,0,(0.2f)*dialogAlpha);
@@ -188,11 +198,11 @@ public class DialogBox extends ApplicationAdapter {
             DrawSprite.Draw(confirmButtonState, dialogLeft, buttonY, buttonWidth, buttonHeight, 1f, dialogAlpha, Color.TEAL, true);
             DrawSprite.Draw(denyButtonState, dialogRight, buttonY, buttonWidth, buttonHeight, 1f, dialogAlpha, Color.TEAL, true);
         }
-        else if (type == 1)
+        else if (type == 1 || type == 3)
             DrawSprite.Draw(okButtonState, dialogX, buttonY, buttonWidth, buttonHeight, 1f, dialogAlpha, Color.TEAL, true);
 
         //Draw resolution slider
-        if (type == 2) {
+        if (type == 2 || type == 3) {
             sizeBarAlpha = MainController.clamp(sizeBarAlpha,0,1);
 
             //Size bar hoverer fade in/out
@@ -210,25 +220,27 @@ public class DialogBox extends ApplicationAdapter {
             //Draw the grid size bar
             DrawSprite.Draw(setSizeBar, dialogX, dialogY, sizeBarWidth*1f, nubSize*0.25f, 0.9f, dialogAlpha, Color.TEAL, true);
             //Draw the pointer
-            DrawSprite.Draw(sizeBarNub,dialogX-(sizeBarWidth/2) + canvasSize*(sizeBarWidth/maxSize), dialogY, nubSize, nubSize, 0.8f+(hoverAlpha*0.2f), dialogAlpha, Color.TEAL, true);
+            DrawSprite.Draw(sizeBarNub,dialogX-(sizeBarWidth/2) + selection*(sizeBarWidth/maxSelect) - ((sizeBarWidth/maxSelect)/2), dialogY, nubSize, nubSize, 0.8f+(hoverAlpha*0.2f), dialogAlpha, Color.TEAL, true);
             //Draw the size nub hoverer
-            DrawSprite.Draw(sizeNubHover2,dialogX-(sizeBarWidth/2) + canvasSize*(sizeBarWidth/maxSize), dialogY + hoverSize/1.9f + hoverAlpha*(hoverSize/10), hoverSize, hoverSize, 1f, hoverAlpha, MainController.mainColour, true);
-            DrawSprite.Draw(sizeNubHover,dialogX-(sizeBarWidth/2) + canvasSize*(sizeBarWidth/maxSize), dialogY  + hoverSize/1.9f + hoverAlpha*(hoverSize/10), hoverSize, hoverSize, 1f, hoverAlpha, Color.TEAL, true);
+            DrawSprite.Draw(sizeNubHover2,dialogX-(sizeBarWidth/2) + selection*(sizeBarWidth/maxSelect) - ((sizeBarWidth/maxSelect)/2), dialogY + hoverSize/1.9f + hoverAlpha*(hoverSize/10), hoverSize, hoverSize, 1f, hoverAlpha, MainController.mainColourList[MainController.mainColour], true);
+            DrawSprite.Draw(sizeNubHover,dialogX-(sizeBarWidth/2) + selection*(sizeBarWidth/maxSelect) - ((sizeBarWidth/maxSelect)/2), dialogY  + hoverSize/1.9f + hoverAlpha*(hoverSize/10), hoverSize, hoverSize, 1f, hoverAlpha, Color.TEAL, true);
 
             //Draw hover sprite
             if (message == "Resolution of copied sprite?") {
                 //Draw if cropped sprite will not be empty
-                if (!CanvasDrawer.spriteEmpty(CanvasDrawer.spriteConverter(MainMenu.spriteList.get(MainMenu.spritesAmount-(MainMenu.optionSelected/MainMenu.optionSpaced)),DialogBox.canvasSize)))
-                    SpriteDrawer.Draw(CanvasDrawer.spriteConverter(MainMenu.spriteList.get(MainMenu.spritesAmount-(MainMenu.optionSelected/MainMenu.optionSpaced)),DialogBox.canvasSize), spriteSize, dialogX-(sizeBarWidth/2) + canvasSize*(sizeBarWidth/maxSize), dialogY + hoverSize/1.65f + hoverAlpha*(hoverSize/10), Color.TEAL, hoverAlpha);
+                if (!CanvasDrawer.spriteEmpty(CanvasDrawer.spriteConverter(MainMenu.spriteList.get(MainMenu.spritesAmount-(MainMenu.optionSelected/MainMenu.optionSpaced)),DialogBox.selection)))
+                    SpriteDrawer.Draw(CanvasDrawer.spriteConverter(MainMenu.spriteList.get(MainMenu.spritesAmount-(MainMenu.optionSelected/MainMenu.optionSpaced)),DialogBox.selection), spriteSize, dialogX-(sizeBarWidth/2) + selection*(sizeBarWidth/maxSize) - ((sizeBarWidth/maxSelect)/2), dialogY + hoverSize/1.65f + hoverAlpha*(hoverSize/10), Color.TEAL, hoverAlpha);
                 else
-                    DrawSprite.Draw(invalidSize, dialogX-(sizeBarWidth/2) + canvasSize*(sizeBarWidth/maxSize), dialogY + hoverSize/1.65f + hoverAlpha*(hoverSize/10), hoverSize/4, hoverSize/4,1f, hoverAlpha, Color.TEAL, true);
+                    DrawSprite.Draw(invalidSize, dialogX-(sizeBarWidth/2) + selection*(sizeBarWidth/maxSelect) - ((sizeBarWidth/maxSelect)/2), dialogY + hoverSize/1.65f + hoverAlpha*(hoverSize/10), hoverSize/4, hoverSize/4,1f, hoverAlpha, Color.TEAL, true);
             }
             else if (message == "Resolution of new sprite?") {
-                if (canvasSize > 0 && canvasSize <= maxSize)
-                    SpriteDrawer.Draw(spriteList[canvasSize], spriteSize, dialogX-(sizeBarWidth/2) + canvasSize*(sizeBarWidth/maxSize), dialogY + hoverSize/1.65f + hoverAlpha*(hoverSize/10), Color.TEAL, hoverAlpha);
+                if (selection > 0 && selection <= maxSelect)
+                    SpriteDrawer.Draw(spriteList[selection], spriteSize, dialogX-(sizeBarWidth/2) + selection*(sizeBarWidth/maxSelect) - ((sizeBarWidth/maxSelect)/2), dialogY + hoverSize/1.65f + hoverAlpha*(hoverSize/10), Color.TEAL, hoverAlpha);
                 else
-                    SpriteDrawer.Draw(spriteList[0], spriteSize, dialogX-(sizeBarWidth/2) + canvasSize*(sizeBarWidth/maxSize), dialogY + hoverSize/1.65f + hoverAlpha*(hoverSize/10), Color.TEAL, hoverAlpha);
+                    SpriteDrawer.Draw(spriteList[0], spriteSize, dialogX-(sizeBarWidth/2) + selection*(sizeBarWidth/maxSelect) - ((sizeBarWidth/maxSelect)/2), dialogY + hoverSize/1.65f + hoverAlpha*(hoverSize/10), Color.TEAL, hoverAlpha);
             }
+            else if (type == 3)
+                DrawSprite.Draw(gearIcon, dialogX - (sizeBarWidth / 2) + selection * (sizeBarWidth / maxSelect) - ((sizeBarWidth/maxSelect)/2), dialogY + hoverSize / 1.65f + hoverAlpha * (hoverSize / 10), hoverSize / 3, hoverSize / 3, 1f, hoverAlpha, Color.WHITE, true);
         }
 
         //Close dialog when result returned
@@ -255,7 +267,7 @@ public class DialogBox extends ApplicationAdapter {
                     denyButtonState = denyButton2;
             }
             //Message dialog
-            else if (dialogType == 1) {
+            else if (dialogType == 1 || dialogType == 3) {
                 //Touching ok
                 if (screenX > dialogX - buttonWidth/2 && screenX < dialogX + buttonWidth/2 && screenY > buttonY - buttonHeight/2 && screenY < buttonY + buttonHeight/2)
                     okButtonState = okButton2;
@@ -269,16 +281,30 @@ public class DialogBox extends ApplicationAdapter {
         //Flip the y
         screenY = Gdx.graphics.getHeight() - screenY;
 
-        //Touching resolution slider
-        if (dialogType == 2) {
+        //Touching slider
+        if (dialogType == 2 || dialogType == 3) {
             //If touching within sizebar bounds and new button is selected
             if (screenX > dialogX-(sizeBarWidth/2) && screenX < dialogX+(sizeBarWidth/2) && screenY > dialogY - nubSize/2 && screenY < dialogY + nubSize*2) {
-                canvasSize = Math.round((screenX - (Gdx.graphics.getWidth()-(dialogX+(sizeBarWidth/2)))) / (sizeBarWidth/maxSize));
+                selection = Math.round((screenX - (Gdx.graphics.getWidth()-(dialogX+(sizeBarWidth/2)))) / (sizeBarWidth/maxSelect));
+
+                //set the values the slider is controlling
+                if (dialogType == 2)
+                    canvasSize = selection;
+                if (dialogType == 3) {
+                    MainController.mainColour = selection;
+                    //save background preference
+                    MainController.prefs.putInteger("Colour",MainController.mainColour);
+                    MainController.prefs.flush();
+                }
+
                 sizeTouch = true;
             }
             else
                 sizeTouch = false;
-            canvasSize = Math.round(MainController.clamp(canvasSize,1f,maxSize*1f));
+
+            //clamp the values
+            selection = Math.round(MainController.clamp(selection,1f,maxSelect*1f));
+            MainController.mainColour = Math.round(MainController.clamp(MainController.mainColour, 1f, maxSelect * 1f));
         }
     }
 
@@ -301,7 +327,7 @@ public class DialogBox extends ApplicationAdapter {
                     setDialogResult = 2;
             }
             //Message dialog
-            else if (dialogType == 1) {
+            else if (dialogType == 1 || dialogType == 3) {
                 //Touching ok
                 if (okButtonState == okButton2 && screenX > dialogX - buttonWidth/2 && screenX < dialogX + buttonWidth/2 && screenY > buttonY - buttonHeight/2 && screenY < buttonY + buttonHeight/2)
                     setDialogResult = 1;

@@ -93,15 +93,15 @@ public class UndoRedo extends ApplicationAdapter{
 
         //Start piece
         DrawSprite.Draw(timelinestart2, startX + timelineH/13, timelineY + timelineShift - timelineH/13, startW, timelineH, 1f,0.15f*timelineAlpha, Color.BLACK,true);
-        DrawSprite.Draw(timelinestart2, startX, timelineY + timelineShift, startW, timelineH, 1f,timelineAlpha, MainController.mainColour,true);
+        DrawSprite.Draw(timelinestart2, startX, timelineY + timelineShift, startW, timelineH, 1f,timelineAlpha, MainController.mainColourList[MainController.mainColour],true);
         DrawSprite.Draw(timelinestart, startX, timelineY + timelineShift, startW, timelineH, 1f,timelineAlpha, Color.TEAL,true);
         //Middle piece
         DrawSprite.Draw(timelinemid2, midX + timelineH/13, timelineY + timelineShift - timelineH/13, midW, timelineH,1f,0.15f * timelineAlpha, Color.BLACK,true);
-        DrawSprite.Draw(timelinemid2, midX, timelineY + timelineShift, midW, timelineH,1f,timelineAlpha, MainController.mainColour,true);
+        DrawSprite.Draw(timelinemid2, midX, timelineY + timelineShift, midW, timelineH,1f,timelineAlpha, MainController.mainColourList[MainController.mainColour],true);
         DrawSprite.Draw(timelinemid, midX, timelineY + timelineShift, midW, timelineH,1f,timelineAlpha, Color.TEAL,true);
         //End piece
         DrawSprite.Draw(timelineend2, endX + timelineH/13, timelineY + timelineShift - timelineH/13, endW, timelineH, 1f,0.15f * timelineAlpha, Color.BLACK,true);
-        DrawSprite.Draw(timelineend2, endX, timelineY + timelineShift, endW, timelineH, 1f,timelineAlpha, MainController.mainColour,true);
+        DrawSprite.Draw(timelineend2, endX, timelineY + timelineShift, endW, timelineH, 1f,timelineAlpha, MainController.mainColourList[MainController.mainColour],true);
         DrawSprite.Draw(timelineend, endX, timelineY + timelineShift, endW, timelineH, 1f,timelineAlpha, Color.TEAL,true);
 
         //Set the timeline scroll

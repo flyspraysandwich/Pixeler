@@ -18,11 +18,12 @@ public class MainController extends ApplicationAdapter implements InputProcessor
 	static ShapeRenderer renderer;
 	static SpriteBatch batch;
 	static Float dt = 0f;
-	static String[] spriteLis = new String[25];
+    static Color[] mainColourList = new Color[12];
+    static String[] spriteLis = new String[25];
 	static Integer whichScreen = 1; // 0 - nothing, 1 - splash, 2 - menu, 3 - draw
 	static int fadeOutState = 0;
 	static Float fadeOutAlpha = 0f;
-	static Color mainColour = new Color(160/255f,160/255f,170/255f,1); //new Color(116/255f,146/255f,233/255f,1);
+	static int mainColour = 1;
 	static int screenChange = 0;
 	static String logo = "10_______x________xpx______xGxpx____xyxGx____xyyox____xyyox____xyyox___xxWxox___x_xWWx_____xxxxxxxxxx_";
     static FileHandle file;
@@ -47,6 +48,20 @@ public class MainController extends ApplicationAdapter implements InputProcessor
         cyrillicFont2 = generator.generateFont(parameter);
 
         generator.dispose();
+
+        //set the main colours
+		mainColourList[0] = ColourPalette.fCol(255,255,255); //white/none
+		mainColourList[1] = ColourPalette.fCol(160,160,170); //grey
+		mainColourList[2] = ColourPalette.fCol(120,120,130); //grey 2
+		mainColourList[3] = ColourPalette.fCol(60,179,113); //green
+		mainColourList[4] = ColourPalette.fCol(204,129,255); //purpl
+        mainColourList[5] = ColourPalette.fCol(255,129,129); //red
+		mainColourList[6] = ColourPalette.fCol(244,164,96); //orange
+        mainColourList[7] = ColourPalette.fCol(0,188,255); //lt blue
+		mainColourList[8] = ColourPalette.fCol(116,146,233); //royal blue
+        mainColourList[9] = ColourPalette.fCol(255,153,204); //pink
+        mainColourList[10] = ColourPalette.fCol(0,210,210); //aqua
+		mainColourList[11] = ColourPalette.fCol(210,180,140); //tan
 
 		//Set the file
 		file = Gdx.files.local("spritedata.txt");
@@ -80,7 +95,10 @@ public class MainController extends ApplicationAdapter implements InputProcessor
 			file.writeString(spriteString, false);
 		}
 
+		//Get the preference colour
 		prefs = Gdx.app.getPreferences("SpriteSave");
+		if (prefs.contains("Colour"))
+			mainColour = prefs.getInteger("Colour");
 
 		//Initialize stuff
 		renderer = new ShapeRenderer();
@@ -96,7 +114,7 @@ public class MainController extends ApplicationAdapter implements InputProcessor
 		dt = Gdx.graphics.getDeltaTime() * 60;
 
 		//Clear the screen
-		Gdx.gl.glClearColor(mainColour.r,mainColour.g,mainColour.b,1);
+		Gdx.gl.glClearColor(mainColourList[mainColour].r,mainColourList[mainColour].g,mainColourList[mainColour].b,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		//Draw the splash screen

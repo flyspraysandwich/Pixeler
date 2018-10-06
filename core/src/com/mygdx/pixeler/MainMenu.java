@@ -40,6 +40,7 @@ public class MainMenu extends ApplicationAdapter{
     static boolean resolutionNew = false;
     static boolean resolutionCopy = false;
     static boolean invalidSprite = false;
+    static boolean colourDialog = false;
 
     //Button vars
     static Float buttonY = Gdx.graphics.getHeight()/5f;
@@ -57,6 +58,9 @@ public class MainMenu extends ApplicationAdapter{
     static Float zoomSize = Gdx.graphics.getHeight()/7f;
     static Float zoomScale = 1f;
     static boolean zoomTouch = false;
+    static Float gearSize = Gdx.graphics.getHeight()/9f;
+    static Float gearScale = 1f;
+    static boolean gearTouch = false;
 
     //Scroll variables
     static boolean touched = false;
@@ -103,6 +107,7 @@ public class MainMenu extends ApplicationAdapter{
     static Texture zoomOutButton = new Texture("zoomoutbutton.png");
     static Texture zoomWhite = new Texture("zoomwhite.png");
     static Texture zoomState = new Texture("zoomoutbutton.png");
+    static Texture gearIcon = new Texture("gearicon.png");
     static Texture scrollLeft = new Texture("scrollleft.png");
     static Texture scrollRight = new Texture("scrollright.png");
 
@@ -237,6 +242,9 @@ public class MainMenu extends ApplicationAdapter{
         DrawSprite.Draw(zoomState,0 + (zoomSize/1.7f) * zoomScale, Gdx.graphics.getHeight()  - (zoomSize/1.7f) * zoomScale, zoomSize * zoomScale, zoomSize * zoomScale, 1f, 0.15f * buttonAlpha, Color.BLACK, true);
         DrawSprite.Draw(zoomState,0 + (zoomSize/1.8f) * zoomScale, Gdx.graphics.getHeight()  - (zoomSize/1.8f) * zoomScale, zoomSize * zoomScale, zoomSize * zoomScale, 1f, buttonAlpha, Color.TEAL, true);
 
+        //Gear Icon
+        DrawSprite.Draw(gearIcon,Gdx.graphics.getWidth() - gearSize*0.6f, Gdx.graphics.getHeight() - gearSize*0.6f, gearSize, gearSize, gearScale, 1f, Color.TEAL, true);
+
         //Zoom button scaling
         if (zoomTouch) {
             if (zoomScale < 1.2f)
@@ -247,6 +255,17 @@ public class MainMenu extends ApplicationAdapter{
                 zoomScale -= MainController.dt/30;
         }
         zoomScale = MainController.clamp(zoomScale,1,1.2f);
+
+        //Gear icon scaling
+        if (gearTouch) {
+            if (gearScale < 1.2f)
+                gearScale += MainController.dt/30;
+        }
+        else {
+            if (gearScale > 1)
+                gearScale -= MainController.dt/30;
+        }
+        gearScale = MainController.clamp(gearScale,1,1.2f);
 
         //Left scroll button fade in/outs
         if (optionSelected > optionSpaced) {
@@ -398,6 +417,15 @@ public class MainMenu extends ApplicationAdapter{
             }
         }
 
+        //Get main colour
+        if (colourDialog) {
+            DialogBox.ConfirmDialog("Select background colour:", 3);
+            if (DialogBox.dialogResult == 1) {
+                DialogBox.dialogResult = 0;
+                colourDialog = false;
+            }
+        }
+
         //Ask for spriteCode
         if (spriteCode != "") {
             if (!spriteCode.equals("random")) {
@@ -499,6 +527,10 @@ public class MainMenu extends ApplicationAdapter{
             if (screenX > 0 + zoomSize/1.8f - zoomSize/2 && screenX < 0 + zoomSize/1.8f + zoomSize/2 && screenY > Gdx.graphics.getHeight() - zoomSize/1.8f - zoomSize/2 && screenY < Gdx.graphics.getHeight() - zoomSize/1.8f + zoomSize/2)
                 zoomTouch = true;
 
+            //Gear button touched
+            if (screenX > Gdx.graphics.getWidth() - gearSize*0.6f - gearSize/2 && screenX < Gdx.graphics.getWidth() - gearSize*0.6f + gearSize/2 && screenY > Gdx.graphics.getHeight() - gearSize*0.6f - gearSize/2 && screenY < Gdx.graphics.getHeight() - gearSize*0.6f + gearSize/2)
+                gearTouch = true;
+
                 //If new button is touched
             if (screenX > centreX-(optionSize/2) && screenX < centreX+(optionSize/2) && screenY > scrollY - (optionSize/2) && screenY < scrollY+(optionSize/2) && optionSelected == 0  && MainController.screenChange == 0) {
                 newButtonTouch = true;
@@ -582,7 +614,7 @@ public class MainMenu extends ApplicationAdapter{
                 if (optionSelected == 0 && newButtonTouch) {
                     //If there is space in the file to save
                     if (SaveData.GetSize() < 1000) {
-                        DialogBox.canvasSize = 10;
+                        DialogBox.selection = 10;
                         resolutionNew = true;
                     }
                     //If limit reached, display error
@@ -632,7 +664,7 @@ public class MainMenu extends ApplicationAdapter{
 
                     //If there is space in the file to save
                     if (SaveData.GetSize() < 1000) {
-                        DialogBox.canvasSize = Integer.valueOf(spriteList.get(spritesAmount-(optionSelected/optionSpaced)).substring(0,2));
+                        DialogBox.selection = Integer.valueOf(spriteList.get(spritesAmount-(optionSelected/optionSpaced)).substring(0,2));
                         resolutionCopy = true;
                     }
                     //If limit reached, display error
@@ -647,6 +679,12 @@ public class MainMenu extends ApplicationAdapter{
                 //If touching within delete button bounds
                 if (deleteButtonState == deleteButton2 && screenX > deleteButtonX - (smallButtonWidth/2) && screenX < deleteButtonX + (smallButtonWidth/2) && screenY > buttonY - (buttonHeight/2) && screenY < buttonY + (buttonHeight/2))
                     deletePermission = true;
+            }
+
+            //Gear button touched
+            if (screenX > Gdx.graphics.getWidth() - gearSize*0.6f - gearSize/2 && screenX < Gdx.graphics.getWidth() - gearSize*0.6f + gearSize/2 && screenY > Gdx.graphics.getHeight() - gearSize*0.6f - gearSize/2 && screenY < Gdx.graphics.getHeight() - gearSize*0.6f + gearSize/2) {
+                DialogBox.selection = MainController.mainColour;
+                colourDialog = true;
             }
 
             //if touching left scroll button
@@ -669,6 +707,7 @@ public class MainMenu extends ApplicationAdapter{
         scrollLeftTouch = false;
         scrollRightTouch = false;
         zoomTouch = false;
+        gearTouch = false;
         touched = false;
 
     }
