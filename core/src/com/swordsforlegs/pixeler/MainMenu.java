@@ -538,7 +538,7 @@ public class MainMenu extends ApplicationAdapter{
             //if touching within scroll bounds
             if (screenX > 0 && screenX < scrollWidth && screenY > scrollHeight && screenY < Gdx.graphics.getHeight()) {
                 //Set the touch
-                if (!gearTouch || !zoomTouch) {
+                if (!gearTouch && !zoomTouch) {
                     touchX = scrolled + screenX;
                     touched = true;
                 }

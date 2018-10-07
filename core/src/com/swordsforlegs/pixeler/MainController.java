@@ -66,35 +66,6 @@ public class MainController extends ApplicationAdapter implements InputProcessor
 		//Set the file
 		file = Gdx.files.local("spritedata.txt");
 
-		//Convert sprites to new sprites
-		if (file.exists()) {
-			String rawString = file.readString();
-			String[] stringArray = rawString.split(",");
-
-			for (int i = 0; i < stringArray.length; i++) {
-				String spriteString = stringArray[i];
-				int spriteSize = Integer.valueOf(spriteString.substring(0,2));
-				spriteString = spriteString.substring(2, (spriteSize*spriteSize)+2);
-				spriteString = spriteString.replaceAll("0","W");
-				spriteString = spriteString.replaceAll("1","L");
-				spriteString = spriteString.replaceAll("2","G");
-				spriteString = spriteString.replaceAll("3","D");
-				if (spriteSize >= 10)
-					stringArray[i] = spriteSize + spriteString;
-				else
-					stringArray[i] = "0" + spriteSize + spriteString;
-			}
-
-			//convert list into single string and save data
-			String spriteString = "";
-
-			for (int i = 0; i < stringArray.length; i++) {
-				spriteString += stringArray[i] + ",";
-			}
-
-			file.writeString(spriteString, false);
-		}
-
 		//Get the preference colour
 		prefs = Gdx.app.getPreferences("SpriteSave");
 		if (prefs.contains("Colour"))

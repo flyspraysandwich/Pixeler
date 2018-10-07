@@ -59,7 +59,8 @@ public class UndoRedo extends ApplicationAdapter{
     static Float endW = timelineH * 0.673f;
     static Float midX = ((endX - endW/2) - (startX + startW/2))/2 + startX + startW/2;
     static Float midW = ((endX - endW/2) - (startX + startW/2));
-    static Float spriteSize = timelineH*0.55f;
+    static int changesNum = 8;
+    static Float spriteSize = midW/10;
     static Float spriteSpace = 1.3f;
     static Float scrollBitW = timelineH/5;
     static Float scrollBitH = scrollBitW * 0.416f;
@@ -105,25 +106,25 @@ public class UndoRedo extends ApplicationAdapter{
         DrawSprite.Draw(timelineend, endX, timelineY + timelineShift, endW, timelineH, 1f,timelineAlpha, Color.TEAL,true);
 
         //Set the timeline scroll
-        timelineScrollable = spriteChanges.size() - 8;
+        timelineScrollable = spriteChanges.size() - changesNum;
 
         //Draw past changes
         for (int i = 0; i < spriteChanges.size(); i++) {
 
-            //Only draw 8
-            if (i + timelineScrolled < 8 + timelineScrolled) {
+            //Only draw as many as changesNum
+            if (i + timelineScrolled < changesNum + timelineScrolled) {
                 //Draw the container
-                DrawSprite.Draw(timelineBox, startX*2 + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift, spriteSize,spriteSize, 1f, timelineAlpha,Color.TEAL,true);
+                DrawSprite.Draw(timelineBox, startX*2.2f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift, spriteSize,spriteSize, 1f, timelineAlpha,Color.TEAL,true);
 
                 //Draw the sprite
                 if (!CanvasDrawer.spriteEmpty(spriteChanges.get(i + timelineScrolled)))
-                    SpriteDrawer.Draw(spriteChanges.get(i + timelineScrolled), spriteSize, startX*2 + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift,Color.TEAL, timelineAlpha);
+                    SpriteDrawer.Draw(spriteChanges.get(i + timelineScrolled), spriteSize, startX*2.2f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift,Color.TEAL, timelineAlpha);
                 else
-                    DrawSprite.Draw(emptySprite, startX*2 + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift, timelineH/3f,timelineH/3f, 1f, timelineAlpha,Color.TEAL,true);
+                    DrawSprite.Draw(emptySprite, startX*2.2f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift, timelineH/3f,timelineH/3f, 1f, timelineAlpha,Color.TEAL,true);
 
                 //Draw the selector
                 if (changePosition == i + timelineScrolled)
-                    DrawSprite.Draw(timelineSelect,startX*2 + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift,spriteSize,spriteSize,1f,timelineAlpha,Color.TEAL,true);
+                    DrawSprite.Draw(timelineSelect,startX*2.2f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift,spriteSize,spriteSize,1f,timelineAlpha,Color.TEAL,true);
             }
         }
 
@@ -169,8 +170,8 @@ public class UndoRedo extends ApplicationAdapter{
             changePosition = spriteChanges.size()-1;
 
             //Set the scroll position
-            if (changePosition > 7)
-                timelineScrolled = changePosition - 7;
+            if (changePosition > (changesNum-1))
+                timelineScrolled = changePosition - (changesNum-1);
             else
                 timelineScrolled = 0;
 
@@ -223,7 +224,7 @@ public class UndoRedo extends ApplicationAdapter{
             if (screenX > redoButtonX - (unredoW / 2)&& screenX < redoButtonX + (unredoW / 2) && screenY > unredoButtonY - (unredoH / 2) && screenY < unredoButtonY + (unredoH / 2) && redoButtonState == redoButton2 && changePosition < spriteChanges.size()-1) {
                 timelineShown = showTime;
                 changePosition += 1;
-                if (changePosition > timelineScrolled + 7)
+                if (changePosition > timelineScrolled + (changesNum-1))
                     timelineScrolled += 1;
                 CanvasDrawer.canvasSprite = spriteChanges.get(changePosition);
                 scrollGoingTo = Math.round((timelineScrolled*1f/timelineScrollable)*(midW*0.96f));
