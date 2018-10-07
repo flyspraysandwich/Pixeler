@@ -1,4 +1,4 @@
-package com.mygdx.pixeler;
+package com.swordsforlegs.pixeler;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Color;

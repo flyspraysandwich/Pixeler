@@ -1,14 +1,12 @@
-package com.mygdx.pixeler;
+package com.swordsforlegs.pixeler;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
@@ -540,7 +538,7 @@ public class MainMenu extends ApplicationAdapter{
             //if touching within scroll bounds
             if (screenX > 0 && screenX < scrollWidth && screenY > scrollHeight && screenY < Gdx.graphics.getHeight()) {
                 //Set the touch
-                if (!zoomTouch) {
+                if (!gearTouch || !zoomTouch) {
                     touchX = scrolled + screenX;
                     touched = true;
                 }
@@ -590,12 +588,6 @@ public class MainMenu extends ApplicationAdapter{
                 scrollRightTouch = true;
             else
                 scrollRightTouch = false;
-
-            //Zoom button touched
-            if (screenX > 0 + zoomSize/1.8f - zoomSize/2 && screenX < 0 + zoomSize/1.8f + zoomSize/2 && screenY > Gdx.graphics.getHeight() - zoomSize/1.8f - zoomSize/2 && screenY < Gdx.graphics.getHeight() - zoomSize/1.8f + zoomSize/2)
-                zoomTouch = true;
-            else
-                zoomTouch = false;
         }
     }
 
@@ -642,7 +634,7 @@ public class MainMenu extends ApplicationAdapter{
             if (optionSelected != 0) {
 
                 //If zoom button is touched
-                if (screenX > 0 + zoomSize/1.8f - zoomSize/2 && screenX < 0 + zoomSize/1.8f + zoomSize/2 && screenY > Gdx.graphics.getHeight() - zoomSize/1.8f - zoomSize/2 && screenY < Gdx.graphics.getHeight() - zoomSize/1.8f + zoomSize/2) {
+                if (screenX > 0 + zoomSize/1.8f - zoomSize/2 && screenX < 0 + zoomSize/1.8f + zoomSize/2 && screenY > Gdx.graphics.getHeight() - zoomSize/1.8f - zoomSize/2 && screenY < Gdx.graphics.getHeight() - zoomSize/1.8f + zoomSize/2 && zoomTouch) {
                     if (spriteMinis) {
                         zoomState = zoomOutButton;
                         spriteMinis = false;
@@ -682,7 +674,7 @@ public class MainMenu extends ApplicationAdapter{
             }
 
             //Gear button touched
-            if (screenX > Gdx.graphics.getWidth() - gearSize*0.6f - gearSize/2 && screenX < Gdx.graphics.getWidth() - gearSize*0.6f + gearSize/2 && screenY > Gdx.graphics.getHeight() - gearSize*0.6f - gearSize/2 && screenY < Gdx.graphics.getHeight() - gearSize*0.6f + gearSize/2) {
+            if (screenX > Gdx.graphics.getWidth() - gearSize*0.6f - gearSize/2 && screenX < Gdx.graphics.getWidth() - gearSize*0.6f + gearSize/2 && screenY > Gdx.graphics.getHeight() - gearSize*0.6f - gearSize/2 && screenY < Gdx.graphics.getHeight() - gearSize*0.6f + gearSize/2 && gearTouch) {
                 DialogBox.selection = MainController.mainColour;
                 colourDialog = true;
             }

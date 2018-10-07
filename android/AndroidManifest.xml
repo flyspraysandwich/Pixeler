@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mygdx.pixeler" >
-
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="28" />
+    package="com.swordsforlegs.pixeler" >
 
     <application
         android:allowBackup="true"
@@ -10,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/GdxTheme" >
         <activity
-            android:name="com.mygdx.pixeler.AndroidLauncher"
+            android:name=".AndroidLauncher"
             android:label="@string/app_name"
             android:screenOrientation="sensorLandscape"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout">

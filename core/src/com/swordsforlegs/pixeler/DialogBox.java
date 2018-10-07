@@ -1,4 +1,4 @@
-package com.mygdx.pixeler;
+package com.swordsforlegs.pixeler;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
@@ -154,7 +153,7 @@ public class DialogBox extends ApplicationAdapter {
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
         //Draw box and shadow
-        DrawSprite.Draw(dialogBox, dialogX + dialogWidth / 30, dialogY - dialogWidth / 30, dialogWidth, dialogHeight, 1f, (0.1f)*dialogAlpha, Color.BLACK, true);
+        DrawSprite.Draw(dialogBox2, dialogX + dialogWidth / 30, dialogY - dialogWidth / 30, dialogWidth, dialogHeight, 1f, (0.1f)*dialogAlpha, Color.BLACK, true);
         DrawSprite.Draw(dialogBox2, dialogX, dialogY, dialogWidth, dialogHeight, 1f, dialogAlpha, MainController.mainColourList[MainController.mainColour], true);
         DrawSprite.Draw(dialogBox, dialogX, dialogY, dialogWidth, dialogHeight, 1f, dialogAlpha, Color.TEAL, true);
 

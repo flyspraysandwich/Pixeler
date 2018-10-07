@@ -1,4 +1,4 @@
-package com.mygdx.pixeler;
+package com.swordsforlegs.pixeler;
 
 import android.os.Bundle;
 

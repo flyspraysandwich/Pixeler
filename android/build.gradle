@@ -1,5 +1,5 @@
 android {
-    buildToolsVersion "27.0.3"
+    buildToolsVersion "28.0.2"
     compileSdkVersion 28
     sourceSets {
         main {
@@ -17,7 +17,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.mygdx.pixeler"
+        applicationId "com.swordsforlegs.pixeler"
         minSdkVersion 9
         targetSdkVersion 28
         versionCode 1
