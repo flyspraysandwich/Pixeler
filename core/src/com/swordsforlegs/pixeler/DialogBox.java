@@ -289,7 +289,7 @@ public class DialogBox extends ApplicationAdapter {
                 //set the values the slider is controlling
                 if (dialogType == 2)
                     canvasSize = selection;
-                if (dialogType == 3) {
+                else if (dialogType == 3) {
                     MainController.mainColour = selection;
                     //save background preference
                     MainController.prefs.putInteger("Colour",MainController.mainColour);

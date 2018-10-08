@@ -114,17 +114,17 @@ public class UndoRedo extends ApplicationAdapter{
             //Only draw as many as changesNum
             if (i + timelineScrolled < changesNum + timelineScrolled) {
                 //Draw the container
-                DrawSprite.Draw(timelineBox, startX*2.2f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift, spriteSize,spriteSize, 1f, timelineAlpha,Color.TEAL,true);
+                DrawSprite.Draw(timelineBox, startX*2.28f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift, spriteSize,spriteSize, 1f, timelineAlpha,Color.TEAL,true);
 
                 //Draw the sprite
                 if (!CanvasDrawer.spriteEmpty(spriteChanges.get(i + timelineScrolled)))
-                    SpriteDrawer.Draw(spriteChanges.get(i + timelineScrolled), spriteSize, startX*2.2f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift,Color.TEAL, timelineAlpha);
+                    SpriteDrawer.Draw(spriteChanges.get(i + timelineScrolled), spriteSize, startX*2.28f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift,Color.TEAL, timelineAlpha);
                 else
-                    DrawSprite.Draw(emptySprite, startX*2.2f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift, timelineH/3f,timelineH/3f, 1f, timelineAlpha,Color.TEAL,true);
+                    DrawSprite.Draw(emptySprite, startX*2.28f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift, timelineH/3f,timelineH/3f, 1f, timelineAlpha,Color.TEAL,true);
 
                 //Draw the selector
                 if (changePosition == i + timelineScrolled)
-                    DrawSprite.Draw(timelineSelect,startX*2.2f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift,spriteSize,spriteSize,1f,timelineAlpha,Color.TEAL,true);
+                    DrawSprite.Draw(timelineSelect,startX*2.28f + ((spriteSize)*spriteSpace) * i,timelineY + timelineShift,spriteSize,spriteSize,1f,timelineAlpha,Color.TEAL,true);
             }
         }
 

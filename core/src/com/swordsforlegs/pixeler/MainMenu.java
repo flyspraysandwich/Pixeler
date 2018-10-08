@@ -53,7 +53,7 @@ public class MainMenu extends ApplicationAdapter{
     static Float copyButtonX = centreX + (buttonWidth/2)*1.2f;
     static Float saveButtonX = centreX - (buttonWidth)*1.55f;
     static Float deleteButtonX = centreX + (buttonWidth)*1.55f;
-    static Float zoomSize = Gdx.graphics.getHeight()/7f;
+    static Float zoomSize = Gdx.graphics.getHeight()/9f;
     static Float zoomScale = 1f;
     static boolean zoomTouch = false;
     static Float gearSize = Gdx.graphics.getHeight()/9f;
@@ -103,7 +103,6 @@ public class MainMenu extends ApplicationAdapter{
     static Texture openButtonState = new Texture("openbutton.png");
     static Texture zoomInButton = new Texture("zoominbutton.png");
     static Texture zoomOutButton = new Texture("zoomoutbutton.png");
-    static Texture zoomWhite = new Texture("zoomwhite.png");
     static Texture zoomState = new Texture("zoomoutbutton.png");
     static Texture gearIcon = new Texture("gearicon.png");
     static Texture scrollLeft = new Texture("scrollleft.png");
@@ -235,12 +234,8 @@ public class MainMenu extends ApplicationAdapter{
         DrawSprite.Draw(copyButtonState,copyButtonX, buttonY, buttonWidth, buttonHeight, buttonScale, buttonAlpha, Color.TEAL, true);
         DrawSprite.Draw(deleteButtonState,deleteButtonX, buttonY, smallButtonWidth, buttonHeight, buttonScale, buttonAlpha, Color.TEAL, true);
 
-        //Zoom button
-        DrawSprite.Draw(zoomWhite,0 + (zoomSize/1.8f) * zoomScale, Gdx.graphics.getHeight()  - (zoomSize/1.8f) * zoomScale, zoomSize * zoomScale, zoomSize * zoomScale, 1f, buttonAlpha, Color.TEAL, true);
-        DrawSprite.Draw(zoomState,0 + (zoomSize/1.7f) * zoomScale, Gdx.graphics.getHeight()  - (zoomSize/1.7f) * zoomScale, zoomSize * zoomScale, zoomSize * zoomScale, 1f, 0.15f * buttonAlpha, Color.BLACK, true);
-        DrawSprite.Draw(zoomState,0 + (zoomSize/1.8f) * zoomScale, Gdx.graphics.getHeight()  - (zoomSize/1.8f) * zoomScale, zoomSize * zoomScale, zoomSize * zoomScale, 1f, buttonAlpha, Color.TEAL, true);
-
-        //Gear Icon
+        //Zoom/Gear icons
+        DrawSprite.Draw(zoomState,0 + zoomSize*0.6f, Gdx.graphics.getHeight() - zoomSize*0.6f, zoomSize, zoomSize, zoomScale, buttonAlpha, Color.TEAL, true);
         DrawSprite.Draw(gearIcon,Gdx.graphics.getWidth() - gearSize*0.6f, Gdx.graphics.getHeight() - gearSize*0.6f, gearSize, gearSize, gearScale, 1f, Color.TEAL, true);
 
         //Zoom button scaling
@@ -522,7 +517,7 @@ public class MainMenu extends ApplicationAdapter{
             }
 
             //Zoom button touched
-            if (screenX > 0 + zoomSize/1.8f - zoomSize/2 && screenX < 0 + zoomSize/1.8f + zoomSize/2 && screenY > Gdx.graphics.getHeight() - zoomSize/1.8f - zoomSize/2 && screenY < Gdx.graphics.getHeight() - zoomSize/1.8f + zoomSize/2)
+            if (screenX > 0 + zoomSize*0.6f - zoomSize/2 && screenX < 0 + zoomSize*0.6f + zoomSize/2 && screenY > Gdx.graphics.getHeight() - zoomSize*0.6f - zoomSize/2 && screenY < Gdx.graphics.getHeight() - zoomSize*0.6f + zoomSize/2)
                 zoomTouch = true;
 
             //Gear button touched
@@ -634,7 +629,7 @@ public class MainMenu extends ApplicationAdapter{
             if (optionSelected != 0) {
 
                 //If zoom button is touched
-                if (screenX > 0 + zoomSize/1.8f - zoomSize/2 && screenX < 0 + zoomSize/1.8f + zoomSize/2 && screenY > Gdx.graphics.getHeight() - zoomSize/1.8f - zoomSize/2 && screenY < Gdx.graphics.getHeight() - zoomSize/1.8f + zoomSize/2 && zoomTouch) {
+                if (screenX > 0 + zoomSize*0.6f - zoomSize/2 && screenX < 0 + zoomSize*0.6f + zoomSize/2 && screenY > Gdx.graphics.getHeight() - zoomSize*0.6f - zoomSize/2 && screenY < Gdx.graphics.getHeight() - zoomSize*0.6f + zoomSize/2 && zoomTouch) {
                     if (spriteMinis) {
                         zoomState = zoomOutButton;
                         spriteMinis = false;
@@ -760,7 +755,7 @@ public class MainMenu extends ApplicationAdapter{
         openButtonState.dispose();
         zoomInButton.dispose();
         zoomOutButton.dispose();
-        zoomWhite.dispose();
+        gearIcon.dispose();
         zoomState.dispose();
         scrollLeft.dispose();
         scrollRight.dispose();

@@ -134,7 +134,8 @@ public class RightButtons extends ApplicationAdapter{
             if (DialogBox.dialogResult == 1) {
 
                 //Delete the recovered sprite
-                MainController.prefs.clear();
+                MainController.prefs.remove("Sprite");
+                MainController.prefs.remove("OldSprite");
                 MainController.prefs.flush();
 
                 MainMenu.dataLoaded = false;

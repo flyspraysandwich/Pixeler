@@ -50,7 +50,7 @@ public class MainController extends ApplicationAdapter implements InputProcessor
         generator.dispose();
 
         //set the main colours
-		mainColourList[0] = ColourPalette.fCol(255,255,255); //white/none
+		mainColourList[0] = ColourPalette.fCol(160,160,170); //grey
 		mainColourList[1] = ColourPalette.fCol(160,160,170); //grey
 		mainColourList[2] = ColourPalette.fCol(120,120,130); //grey 2
 		mainColourList[3] = ColourPalette.fCol(60,179,113); //green
