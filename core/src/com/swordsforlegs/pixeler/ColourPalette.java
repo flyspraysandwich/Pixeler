@@ -9,29 +9,31 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class ColourPalette extends ApplicationAdapter{
 
-    //Set colours
+    //Set colour variables
+    static Color themeColour = MainController.mainColourList[MainController.mainColour];
     final static Color[] colourArray = {
-            new Color(fCol(25,25,25)),     //black
-            new Color(fCol(236,112,99)),   //red
-            new Color(fCol(245,160,150)),  //lighter red
-            new Color(fCol(240,178,122)),  //orange
-            new Color(fCol(255,255,100)),  //yellow
-            new Color(fCol(139,226,176)),  //green
-            new Color(fCol(46,204,113)),   //darker green
-            new Color(fCol(102,232,255)),  //light blue
-            new Color(fCol(40,183,251)),   //darker blue
-            new Color(fCol(195,153,255)),  //purple
-            new Color(fCol(254,186,235)),  //pink
-            new Color(fCol(245,203,169)),  //light brown
-            new Color(fCol(198,163,119)),  //brown
-            new Color(fCol(100,100,100)),  //dark grey
-            new Color(fCol(160,160,160)),  //grey
-            new Color(fCol(200,200,200)),  //light grey
-            new Color(fCol(255,255,255))   //white
+        new Color(fCol(25,25,25)),     //black
+        new Color(fCol(236,112,99)),   //red
+        new Color(fCol(245,160,150)),  //lighter red
+        new Color(fCol(240,178,122)),  //orange
+        new Color(fCol(255,255,100)),  //yellow
+        new Color(fCol(139,226,176)),  //green
+        new Color(fCol(46,204,113)),   //darker green
+        new Color(fCol(102,232,255)),  //light blue
+        new Color(fCol(40,183,251)),   //darker blue
+        new Color(fCol(195,153,255)),  //purple
+        new Color(fCol(254,186,235)),  //pink
+        new Color(fCol(245,203,169)),  //light brown
+        new Color(fCol(198,163,119)),  //brown
+        new Color(fCol(100,100,100)),  //dark grey
+        new Color(fCol(160,160,160)),  //grey
+        new Color(fCol(200,200,200)),  //light grey
+        new Color(fCol(255,255,255)),  //white
+        new Color(fCol(Math.round(themeColour.r*255+55),Math.round(themeColour.g*255+55),Math.round(themeColour.b*255+55))), //theme light
+        new Color(fCol(Math.round(themeColour.r*255+20),Math.round(themeColour.g*255+20),Math.round(themeColour.b*255+20)))  //theme dark
     };
 
-    //Set colour codes
-    final static char[] colourCodes = {'x','c', 'r', 'o', 'y', 'g', 'd', 'b', 'i', 'u', 'p', 's', 'w', 'D', 'G', 'L', 'W', '_'};
+    final static char[] colourCodes = {'x','c', 'r', 'o', 'y', 'g', 'd', 'b', 'i', 'u', 'p', 's', 'w', 'D', 'G', 'L', 'W', 't', 'T', '_'};
 
     //Variables
     static ShapeRenderer renderer = new ShapeRenderer();
@@ -62,6 +64,9 @@ public class ColourPalette extends ApplicationAdapter{
 
     //Draw the colour palette
     public static void Palette() {
+
+        //Set the theme colour
+        themeColour = MainController.mainColourList[MainController.mainColour];
 
         //Start renderer
         Gdx.gl.glEnable(GL20.GL_BLEND);

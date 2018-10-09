@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
 
+import sun.applet.Main;
+
 public class DialogBox extends ApplicationAdapter {
 
     //Stuff
@@ -109,8 +111,23 @@ public class DialogBox extends ApplicationAdapter {
         //set the max sizes
         if (dialogType == 2)
             maxSelect = maxSize;
-        else if (dialogType == 3)
+        else if (dialogType == 3) {
             maxSelect = maxColour;
+            //Set theme colours
+            ColourPalette.themeColour = MainController.mainColourList[MainController.mainColour];
+            ColourPalette.colourArray[17] = new Color(ColourPalette.fCol(Math.round(ColourPalette.themeColour.r*255+55),Math.round(ColourPalette.themeColour.g*255+55),Math.round(ColourPalette.themeColour.b*255+55))); //theme light
+            ColourPalette.colourArray[18] = new Color(ColourPalette.fCol(Math.round(ColourPalette.themeColour.r*255+20),Math.round(ColourPalette.themeColour.g*255+20),Math.round(ColourPalette.themeColour.b*255+20)));  //theme dark
+        }
+
+        //set the values the slider is controlling
+        if (dialogType == 2)
+            canvasSize = selection;
+        else if (dialogType == 3) {
+            MainController.mainColour = selection;
+            //save background preference
+            MainController.prefs.putInteger("Colour",MainController.mainColour);
+            MainController.prefs.flush();
+        }
 
         //Set dialog fade in/out
         //Dialog showing
@@ -285,17 +302,6 @@ public class DialogBox extends ApplicationAdapter {
             //If touching within sizebar bounds and new button is selected
             if (screenX > dialogX-(sizeBarWidth/2) && screenX < dialogX+(sizeBarWidth/2) && screenY > dialogY - nubSize/2 && screenY < dialogY + nubSize*2) {
                 selection = Math.round((screenX - (Gdx.graphics.getWidth()-(dialogX+(sizeBarWidth/2)))) / (sizeBarWidth/maxSelect));
-
-                //set the values the slider is controlling
-                if (dialogType == 2)
-                    canvasSize = selection;
-                else if (dialogType == 3) {
-                    MainController.mainColour = selection;
-                    //save background preference
-                    MainController.prefs.putInteger("Colour",MainController.mainColour);
-                    MainController.prefs.flush();
-                }
-
                 sizeTouch = true;
             }
             else

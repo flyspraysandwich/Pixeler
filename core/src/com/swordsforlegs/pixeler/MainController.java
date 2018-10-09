@@ -18,12 +18,25 @@ public class MainController extends ApplicationAdapter implements InputProcessor
 	static ShapeRenderer renderer;
 	static SpriteBatch batch;
 	static Float dt = 0f;
-    static Color[] mainColourList = new Color[12];
+	static int mainColour = 1;
+    static Color[] mainColourList = {
+		new Color(160/255f,160/255f,170/255f,1), //grey (unreachable)
+		new Color(160/255f,160/255f,170/255f,1), //grey
+		new Color(120/255f,120/255f,130/255f,1), //grey 2
+		new Color(60/255f,179/255f,113/255f,1),  //green
+		new Color(204/255f,129/255f,1f,1), //purple
+		new Color(1f,129/255f,129/255f,1), //red
+		new Color(244/255f,164/255f,96/255f,1),  //orange
+		new Color(0f,188/255f,1f,1),   //lt blue
+		new Color(116/255f,146/255f,233/255f,1), //royal blue
+		new Color(1f,153/255f,204/255f,1), //pink
+		new Color(0f,210/255f,210/255f,1),   //aqua
+		new Color(210/255f,180/255f,140/255f,1) //tan
+	};
     static String[] spriteLis = new String[25];
 	static Integer whichScreen = 1; // 0 - nothing, 1 - splash, 2 - menu, 3 - draw
 	static int fadeOutState = 0;
 	static Float fadeOutAlpha = 0f;
-	static int mainColour = 1;
 	static int screenChange = 0;
 	static String logo = "10_______x________xpx______xGxpx____xyxGx____xyyox____xyyox____xyyox___xxWxox___x_xWWx_____xxxxxxxxxx_";
     static FileHandle file;
@@ -48,20 +61,6 @@ public class MainController extends ApplicationAdapter implements InputProcessor
         cyrillicFont2 = generator.generateFont(parameter);
 
         generator.dispose();
-
-        //set the main colours
-		mainColourList[0] = ColourPalette.fCol(160,160,170); //grey
-		mainColourList[1] = ColourPalette.fCol(160,160,170); //grey
-		mainColourList[2] = ColourPalette.fCol(120,120,130); //grey 2
-		mainColourList[3] = ColourPalette.fCol(60,179,113); //green
-		mainColourList[4] = ColourPalette.fCol(204,129,255); //purpl
-        mainColourList[5] = ColourPalette.fCol(255,129,129); //red
-		mainColourList[6] = ColourPalette.fCol(244,164,96); //orange
-        mainColourList[7] = ColourPalette.fCol(0,188,255); //lt blue
-		mainColourList[8] = ColourPalette.fCol(116,146,233); //royal blue
-        mainColourList[9] = ColourPalette.fCol(255,153,204); //pink
-        mainColourList[10] = ColourPalette.fCol(0,210,210); //aqua
-		mainColourList[11] = ColourPalette.fCol(210,180,140); //tan
 
 		//Set the file
 		file = Gdx.files.local("spritedata.txt");

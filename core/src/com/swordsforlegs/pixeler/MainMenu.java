@@ -412,7 +412,7 @@ public class MainMenu extends ApplicationAdapter{
 
         //Get main colour
         if (colourDialog) {
-            DialogBox.ConfirmDialog("Select background colour:", 3);
+            DialogBox.ConfirmDialog("Select theme colour:", 3);
             if (DialogBox.dialogResult == 1) {
                 DialogBox.dialogResult = 0;
                 colourDialog = false;
