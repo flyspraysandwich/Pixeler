@@ -11,6 +11,7 @@ public class ColourPalette extends ApplicationAdapter{
 
     //Set colour variables
     static Color themeColour = MainController.mainColourList[MainController.mainColour];
+    static Color randColour = MainController.randomColour();
     final static Color[] colourArray = {
         new Color(fCol(25,25,25)),     //black
         new Color(fCol(236,112,99)),   //red
@@ -30,10 +31,12 @@ public class ColourPalette extends ApplicationAdapter{
         new Color(fCol(200,200,200)),  //light grey
         new Color(fCol(255,255,255)),  //white
         new Color(fCol(Math.round(themeColour.r*255+55),Math.round(themeColour.g*255+55),Math.round(themeColour.b*255+55))), //theme light
-        new Color(fCol(Math.round(themeColour.r*255+20),Math.round(themeColour.g*255+20),Math.round(themeColour.b*255+20)))  //theme dark
+        new Color(fCol(Math.round(themeColour.r*255+20),Math.round(themeColour.g*255+20),Math.round(themeColour.b*255+20))),  //theme dark
+        new Color(fCol(Math.round(randColour.r*255+55),Math.round(randColour.g*255+55),Math.round(randColour.b*255+55))), //random light
+        new Color(fCol(Math.round(randColour.r*255+20),Math.round(randColour.g*255+20),Math.round(randColour.b*255+20)))  //random dark
     };
 
-    final static char[] colourCodes = {'x','c', 'r', 'o', 'y', 'g', 'd', 'b', 'i', 'u', 'p', 's', 'w', 'D', 'G', 'L', 'W', 't', 'T', '_'};
+    final static char[] colourCodes = {'x','c', 'r', 'o', 'y', 'g', 'd', 'b', 'i', 'u', 'p', 's', 'w', 'D', 'G', 'L', 'W', 't', 'T', 'a', 'A', '_'};
 
     //Variables
     static ShapeRenderer renderer = new ShapeRenderer();
@@ -59,14 +62,19 @@ public class ColourPalette extends ApplicationAdapter{
     static Texture colourButton2 = new Texture("colourbutton2.png");
     static Texture colourOverlay = new Texture("colouroverlay.png");
     static Texture colourOverlay2 = new Texture("colouroverlay2.png");
+    static Texture colourThemeOverlay = new Texture("colourthemeoverlay.png");
+    static Texture colourThemeOverlay2 = new Texture("colourthemeoverlay2.png");
+    static Texture colourRandomOverlay = new Texture("colourrandomoverlay.png");
+    static Texture colourRandomOverlay2 = new Texture("colourrandomoverlay2.png");
     static Texture eraseButton = new Texture("erasebutton.png");
     static Texture eraseButton2 = new Texture("erasebutton2.png");
 
     //Draw the colour palette
     public static void Palette() {
 
-        //Set the theme colour
+        //Set the theme colour, random colour
         themeColour = MainController.mainColourList[MainController.mainColour];
+        randColour = MainController.randomColour();
 
         //Start renderer
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -108,7 +116,7 @@ public class ColourPalette extends ApplicationAdapter{
                     DrawSprite.Draw(eraseButton2, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, Color.TEAL, true);
             }
             //Colour
-            else if (i < colourArray.length+1 && i > 0) {
+            else if (i < colourArray.length-3) {
                 //button up
                 if (buttonSelected != i) {
                     DrawSprite.Draw(colourButton, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, Color.TEAL, true);
@@ -118,6 +126,32 @@ public class ColourPalette extends ApplicationAdapter{
                 else {
                     DrawSprite.Draw(colourButton2, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, Color.TEAL, true);
                     DrawSprite.Draw(colourOverlay2, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, colourArray[i-1], true);
+                }
+            }
+            //Theme colour
+            else if (i == colourArray.length-3 || i == colourArray.length-2) {
+                //button up
+                if (buttonSelected != i) {
+                    DrawSprite.Draw(colourButton, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, Color.TEAL, true);
+                    DrawSprite.Draw(colourThemeOverlay, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, colourArray[i-1], true);
+                }
+                //button down
+                else {
+                    DrawSprite.Draw(colourButton2, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, Color.TEAL, true);
+                    DrawSprite.Draw(colourThemeOverlay2, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, colourArray[i-1], true);
+                }
+            }
+            //Random colour
+            else if (i == colourArray.length-1 || i == colourArray.length) {
+                //button up
+                if (buttonSelected != i) {
+                    DrawSprite.Draw(colourButton, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, Color.TEAL, true);
+                    DrawSprite.Draw(colourRandomOverlay, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, colourArray[i-1], true);
+                }
+                //button down
+                else {
+                    DrawSprite.Draw(colourButton2, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, Color.TEAL, true);
+                    DrawSprite.Draw(colourRandomOverlay2, barCentre,barHeight - (buttonHeight/2)*1.4f - (buttonHeight*1.2f)*i - scrolled, buttonWidth, buttonHeight, 1f, 1f, colourArray[i-1], true);
                 }
             }
             //Select a colour
@@ -194,6 +228,10 @@ public class ColourPalette extends ApplicationAdapter{
         colourButton2.dispose();
         colourOverlay.dispose();
         colourOverlay2.dispose();
+        colourThemeOverlay.dispose();
+        colourThemeOverlay2.dispose();
+        colourRandomOverlay.dispose();
+        colourRandomOverlay2.dispose();
         eraseButton.dispose();
         eraseButton2.dispose();
     }

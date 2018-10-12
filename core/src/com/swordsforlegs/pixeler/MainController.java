@@ -12,6 +12,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.util.Random;
+
 public class MainController extends ApplicationAdapter implements InputProcessor{
 
 	//Initialize stuff
@@ -21,17 +23,17 @@ public class MainController extends ApplicationAdapter implements InputProcessor
 	static int mainColour = 1;
     static Color[] mainColourList = {
 		new Color(160/255f,160/255f,170/255f,1), //grey (unreachable)
-		new Color(160/255f,160/255f,170/255f,1), //grey
-		new Color(120/255f,120/255f,130/255f,1), //grey 2
-		new Color(60/255f,179/255f,113/255f,1),  //green
-		new Color(204/255f,129/255f,1f,1), //purple
 		new Color(1f,129/255f,129/255f,1), //red
 		new Color(244/255f,164/255f,96/255f,1),  //orange
+		new Color(255/255f,215/255f,100/255f,1), //yellow
+		new Color(60/255f,179/255f,113/255f,1),  //green
+		new Color(0f,210/255f,210/255f,1),   //aqua
 		new Color(0f,188/255f,1f,1),   //lt blue
 		new Color(116/255f,146/255f,233/255f,1), //royal blue
+		new Color(204/255f,129/255f,1f,1), //purple
 		new Color(1f,153/255f,204/255f,1), //pink
-		new Color(0f,210/255f,210/255f,1),   //aqua
-		new Color(210/255f,180/255f,140/255f,1) //tan
+		new Color(210/255f,180/255f,140/255f,1), //tan
+		new Color(160/255f,160/255f,170/255f,1) //grey
 	};
     static String[] spriteLis = new String[25];
 	static Integer whichScreen = 1; // 0 - nothing, 1 - splash, 2 - menu, 3 - draw
@@ -45,6 +47,7 @@ public class MainController extends ApplicationAdapter implements InputProcessor
 	static Preferences prefs;
 	static BitmapFont font;
 	static String message = "";
+	static Random rand = new Random();
 
 	@Override
 	public void create () {
@@ -62,13 +65,18 @@ public class MainController extends ApplicationAdapter implements InputProcessor
 
         generator.dispose();
 
-		//Set the file
+		//Set the file, load data
 		file = Gdx.files.local("spritedata.txt");
+		SaveData.LoadData();
 
 		//Get the preference colour
 		prefs = Gdx.app.getPreferences("SpriteSave");
 		if (prefs.contains("Colour"))
 			mainColour = prefs.getInteger("Colour");
+
+		//Get the logo sprite
+		if (prefs.contains("Logo"))
+			logo = prefs.getString("Logo");
 
 		//Initialize stuff
 		renderer = new ShapeRenderer();
@@ -128,8 +136,13 @@ public class MainController extends ApplicationAdapter implements InputProcessor
 			if (fadeOutAlpha < 1)
 				fadeOutAlpha += dt/20;
 			else {
-				whichScreen = screen;
+				//Change the screen
+                whichScreen = screen;
 				fadeOutState = 1;
+				//Change the random colour
+				ColourPalette.randColour = MainController.randomColour();
+				ColourPalette.colourArray[19] = new Color(ColourPalette.fCol(Math.round(ColourPalette.randColour.r*255+55),Math.round(ColourPalette.randColour.g*255+55),Math.round(ColourPalette.randColour.b*255+55))); //random light
+				ColourPalette.colourArray[20] = new Color(ColourPalette.fCol(Math.round(ColourPalette.randColour.r*255+20),Math.round(ColourPalette.randColour.g*255+20),Math.round(ColourPalette.randColour.b*255+20))); //random dark
 			}
 		}
 		else {
@@ -300,6 +313,15 @@ public class MainController extends ApplicationAdapter implements InputProcessor
 			return false;
 		else
 			return true;
+	}
+
+	//Random theme colour
+	public static Color randomColour() {
+		int r = rand.nextInt(mainColourList.length-1)+1;
+		while (r == mainColour)
+			r = rand.nextInt(mainColourList.length-1)+1;
+
+		return mainColourList[r];
 	}
 
 	//Touch events --------------------------------------------------------------->

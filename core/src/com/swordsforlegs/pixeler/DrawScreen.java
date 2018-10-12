@@ -239,6 +239,7 @@ public class DrawScreen extends ApplicationAdapter {
             RightButtons.backScale = 0f;
         }
 
+        //Reset other stuff
         ColourPalette.scrolled = 0f;
         ColourPalette.currentColour = 'x';
         ColourPalette.buttonSelected = 1;

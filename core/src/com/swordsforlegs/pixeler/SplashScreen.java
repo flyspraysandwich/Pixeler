@@ -38,7 +38,6 @@ public class SplashScreen {
         if (waitTime > 0)
             waitTime -= MainController.dt*15;
         else {
-            SaveData.LoadData();
             //load recovered sprite
             if (MainController.prefs.contains("Sprite"))
                 DrawScreen.resetDrawScreen(MainController.prefs.getInteger("OldSprite"), MainController.prefs.getString("Sprite"), Integer.valueOf(MainController.prefs.getString("Sprite").substring(0,2)));

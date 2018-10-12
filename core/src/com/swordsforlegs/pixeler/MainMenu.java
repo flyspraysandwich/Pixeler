@@ -39,6 +39,7 @@ public class MainMenu extends ApplicationAdapter{
     static boolean resolutionCopy = false;
     static boolean invalidSprite = false;
     static boolean colourDialog = false;
+    static String logoDialog = "false";
 
     //Button vars
     static Float buttonY = Gdx.graphics.getHeight()/5f;
@@ -410,12 +411,21 @@ public class MainMenu extends ApplicationAdapter{
             }
         }
 
-        //Get main colour
+        //Get theme colour
         if (colourDialog) {
             DialogBox.ConfirmDialog("Select theme colour:", 3);
             if (DialogBox.dialogResult == 1) {
                 DialogBox.dialogResult = 0;
                 colourDialog = false;
+            }
+        }
+
+        //Logo set
+        if (logoDialog != "false") {
+            DialogBox.ConfirmDialog(logoDialog, 1);
+            if (DialogBox.dialogResult == 1) {
+                DialogBox.dialogResult = 0;
+                logoDialog = "false";
             }
         }
 
@@ -720,12 +730,31 @@ public class MainMenu extends ApplicationAdapter{
         }
     }
 
-    //Text input 2 (doesn't do anything)
+    //Text input 2 (shows you sprite codes and sets logo)
     public static class TextInput2 implements Input.TextInputListener {
         @Override
         public void input (String text) {
+            if (text.equals("logo")) {
+                if (MainController.prefs.contains("Logo")) {
+                    if (MainController.prefs.getString("Logo").equals(spriteList.get(spritesAmount-(optionSelected/optionSpaced)))) {
+                        //Delete logo
+                        MainController.prefs.remove("Logo");
+                        MainController.prefs.flush();
+                        logoDialog = "Logo removed!";
+                    } else {
+                        //save logo
+                        MainController.prefs.putString("Logo", spriteList.get(spritesAmount - (optionSelected / optionSpaced)));
+                        MainController.prefs.flush();
+                        logoDialog = "Sprite set as logo!";
+                    }
+                } else {
+                    //save logo
+                    MainController.prefs.putString("Logo",spriteList.get(spritesAmount-(optionSelected/optionSpaced)));
+                    MainController.prefs.flush();
+                    logoDialog = "Sprite set as logo!";
+                }
+            }
         }
-
         @Override
         public void canceled () {
         }

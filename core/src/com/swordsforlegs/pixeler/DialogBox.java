@@ -113,10 +113,16 @@ public class DialogBox extends ApplicationAdapter {
             maxSelect = maxSize;
         else if (dialogType == 3) {
             maxSelect = maxColour;
-            //Set theme colours
+            //Set theme colour
             ColourPalette.themeColour = MainController.mainColourList[MainController.mainColour];
             ColourPalette.colourArray[17] = new Color(ColourPalette.fCol(Math.round(ColourPalette.themeColour.r*255+55),Math.round(ColourPalette.themeColour.g*255+55),Math.round(ColourPalette.themeColour.b*255+55))); //theme light
             ColourPalette.colourArray[18] = new Color(ColourPalette.fCol(Math.round(ColourPalette.themeColour.r*255+20),Math.round(ColourPalette.themeColour.g*255+20),Math.round(ColourPalette.themeColour.b*255+20)));  //theme dark
+            //Set random colour
+            while (ColourPalette.randColour == MainController.mainColourList[MainController.mainColour]) {
+                ColourPalette.randColour = MainController.randomColour();
+                ColourPalette.colourArray[19] = new Color(ColourPalette.fCol(Math.round(ColourPalette.randColour.r*255+55),Math.round(ColourPalette.randColour.g*255+55),Math.round(ColourPalette.randColour.b*255+55))); //random light
+                ColourPalette.colourArray[20] = new Color(ColourPalette.fCol(Math.round(ColourPalette.randColour.r*255+20),Math.round(ColourPalette.randColour.g*255+20),Math.round(ColourPalette.randColour.b*255+20))); //random dark
+            }
         }
 
         //set the values the slider is controlling
